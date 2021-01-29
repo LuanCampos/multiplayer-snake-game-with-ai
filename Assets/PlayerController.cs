@@ -17,13 +17,11 @@ public class PlayerController : MonoBehaviour
     {
 		if (Input.GetKeyDown(left))
 		{
-			Debug.Log("Go left!");
 			nextMove = 1;
 		}
 		
         if (Input.GetKeyDown(right))
 		{
-			Debug.Log("Go right!");
 			nextMove = 2;
 		}
     }
