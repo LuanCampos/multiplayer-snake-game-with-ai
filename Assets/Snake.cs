@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnakeMovement : MonoBehaviour
+public class Snake : MonoBehaviour
 {
 	private AIController aiController = null;
 	private PlayerController playerController = null;
@@ -26,6 +26,13 @@ public class SnakeMovement : MonoBehaviour
     {
 		CountFrameAndMove();
     }
+	
+	public void Grow()
+	{
+		GameObject newDot = Instantiate(gameObject.transform.GetChild(0).gameObject, new Vector3(20, 0, 20), Quaternion.identity);
+		newDot.transform.parent = gameObject.transform;
+		snake.Add(newDot.transform);
+	}
 	
 	private void GetControllerType()
 	{
@@ -72,7 +79,6 @@ public class SnakeMovement : MonoBehaviour
 		else
 		{
 			nextMove = playerController.GetNextMove();
-			Debug.Log(nextMove);
 			playerController.HasMoved();
 		}
 		
