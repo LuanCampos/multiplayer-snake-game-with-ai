@@ -38,29 +38,32 @@ public class AIController : MonoBehaviour
 		Vector3 goLeft = new Vector3(-1, 0, 0);
 		Vector3 goRight = new Vector3(1, 0, 0);
 		Vector3 goDown = new Vector3(0, 0, -1);
-	
-		switch (GetComponent<Snake>().SnakeDirection())
-		{
-			case 3: //RIGHT
-				moveForward = snakeHead + goRight;
-				moveRight = snakeHead + goDown;
-				moveLeft = snakeHead + goUp;
-				break;
-			case 2: //DOWN
-				moveForward = snakeHead + goDown;
-				moveRight = snakeHead + goLeft;
-				moveLeft = snakeHead + goRight;
-				break;
-			case 1: //LEFT
-				moveForward = snakeHead + goLeft;
-				moveRight = snakeHead + goUp;
-				moveLeft = snakeHead + goDown;
-				break;
-			default: //UP
-				moveForward = snakeHead + goUp;
-				moveRight = snakeHead + goRight;
-				moveLeft = snakeHead + goLeft;
-				break;
+		
+		if (GetComponent<Snake>() != null)
+		{		
+			switch (GetComponent<Snake>().SnakeDirection())
+			{
+				case 3: //RIGHT
+					moveForward = snakeHead + goRight;
+					moveRight = snakeHead + goDown;
+					moveLeft = snakeHead + goUp;
+					break;
+				case 2: //DOWN
+					moveForward = snakeHead + goDown;
+					moveRight = snakeHead + goLeft;
+					moveLeft = snakeHead + goRight;
+					break;
+				case 1: //LEFT
+					moveForward = snakeHead + goLeft;
+					moveRight = snakeHead + goUp;
+					moveLeft = snakeHead + goDown;
+					break;
+				default: //UP
+					moveForward = snakeHead + goUp;
+					moveRight = snakeHead + goRight;
+					moveLeft = snakeHead + goLeft;
+					break;
+			}
 		}
 	}
 	
@@ -73,7 +76,15 @@ public class AIController : MonoBehaviour
 		
 		else
 		{
-			forwardDistance = 10000;
+			if (Vector3.Distance(moveForward, apple) > 1)
+			{
+				forwardDistance = 10000;
+			}
+			
+			else
+			{
+				forwardDistance = 0;
+			}
 		}
 		
 		if (!Physics.CheckSphere(moveRight, .8f))
@@ -83,7 +94,15 @@ public class AIController : MonoBehaviour
 		
 		else
 		{
-			rightDistance = 10000;
+			if (Vector3.Distance(moveRight, apple) > 1)
+			{
+				rightDistance = 10000;
+			}
+			
+			else
+			{
+				rightDistance = 0;
+			}
 		}
 		
 		if (!Physics.CheckSphere(moveLeft, .8f))
@@ -93,7 +112,15 @@ public class AIController : MonoBehaviour
 		
 		else
 		{
-			leftDistance = 10000;
+			if (Vector3.Distance(moveLeft, apple) > 1)
+			{
+				leftDistance = 10000;
+			}
+			
+			else
+			{
+				leftDistance = 0;
+			}
 		}
 	}
 	
