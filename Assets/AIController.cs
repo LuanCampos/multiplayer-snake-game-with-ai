@@ -69,12 +69,12 @@ public class AIController : MonoBehaviour
 	
 	private void CalculateDistance()
 	{
-		forwardDistance = GetTheDistance(moveForward, forwardDistance);
-		rightDistance = GetTheDistance(moveRight, rightDistance);
-		leftDistance = GetTheDistance(moveLeft, leftDistance);
+		forwardDistance = GetTheDistance(moveForward);
+		rightDistance = GetTheDistance(moveRight);
+		leftDistance = GetTheDistance(moveLeft);
 	}
 	
-	private float GetTheDistance(Vector3 movePosition, float positionDistance)
+	private float GetTheDistance(Vector3 movePosition)
 	{
 		if (!Physics.CheckSphere(movePosition, .8f))
 		{
