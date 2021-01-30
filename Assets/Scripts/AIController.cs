@@ -76,7 +76,7 @@ public class AIController : MonoBehaviour
 	
 	private float GetTheDistance(Vector3 movePosition)
 	{
-		if (!Physics.CheckSphere(movePosition, .8f))
+		if (!Physics.CheckSphere(movePosition, .2f))
 		{
 			var otherSnakes = GameObject.FindGameObjectsWithTag("SnakeHead");
 			var dangerOfCollision = false;
