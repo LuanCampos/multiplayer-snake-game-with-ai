@@ -78,7 +78,26 @@ public class AIController : MonoBehaviour
 	{
 		if (!Physics.CheckSphere(movePosition, .8f))
 		{
-			return Vector3.Distance(movePosition, apple);
+			var otherSnakes = GameObject.FindGameObjectsWithTag("SnakeHead");
+			var dangerOfCollision = false;
+			
+			foreach (GameObject head in otherSnakes)
+			{
+				if (head.transform.position != snakeHead && Vector3.Distance(movePosition, head.transform.position) < 2)
+				{
+					dangerOfCollision = true;
+				}
+			}
+			
+			if (dangerOfCollision)
+			{
+				return 10000;
+			}
+			
+			else
+			{
+				return Vector3.Distance(movePosition, apple);
+			}
 		}
 		
 		else
