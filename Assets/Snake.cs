@@ -29,9 +29,14 @@ public class Snake : MonoBehaviour
 	
 	public void Grow()
 	{
-		GameObject newDot = Instantiate(gameObject.transform.GetChild(0).gameObject, new Vector3(20, 0, 20), Quaternion.identity);
+		GameObject newDot = Instantiate(gameObject.transform.GetChild(1).gameObject, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
 		newDot.transform.parent = gameObject.transform;
 		snake.Add(newDot.transform);
+	}
+	
+	public int SnakeDirection()
+	{
+		return direction;
 	}
 	
 	private void GetControllerType()
@@ -69,7 +74,7 @@ public class Snake : MonoBehaviour
 	}
 	
 	private void GetDirection()
-	{
+	{		
 		if (isAI)
 		{
 			nextMove = aiController.GetNextMove();
@@ -112,17 +117,17 @@ public class Snake : MonoBehaviour
 		
 		switch (direction)
 		{
-			case 3:
-				snake[0].position = new Vector3(snake[0].position.x + 1, snake[0].position.y, snake[0].position.z);
+			case 3: //RIGHT
+				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x + 1), snake[0].position.y, snake[0].position.z);
 				break;
-			case 2:
-				snake[0].position = new Vector3(snake[0].position.x, snake[0].position.y, snake[0].position.z - 1);
+			case 2: //DOWN
+				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x), snake[0].position.y, snake[0].position.z - 1);
 				break;
-			case 1:
-				snake[0].position = new Vector3(snake[0].position.x - 1, snake[0].position.y, snake[0].position.z);
+			case 1: //LEFT
+				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x - 1), snake[0].position.y, snake[0].position.z);
 				break;
-			default:
-				snake[0].position = new Vector3(snake[0].position.x, snake[0].position.y, snake[0].position.z + 1);
+			default: //UP
+				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x), snake[0].position.y, snake[0].position.z + 1);
 				break;
 		}
 	}
