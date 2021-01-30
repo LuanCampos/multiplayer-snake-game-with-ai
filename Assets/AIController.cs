@@ -89,14 +89,14 @@ public class AIController : MonoBehaviour
 				}
 			}
 			
-			if (dangerOfCollision)
+			if (!dangerOfCollision)
 			{
-				return 10000;
+				return Vector3.Distance(movePosition, apple);
 			}
 			
 			else
 			{
-				return Vector3.Distance(movePosition, apple);
+				return 10000;
 			}
 		}
 		
