@@ -69,57 +69,28 @@ public class AIController : MonoBehaviour
 	
 	private void CalculateDistance()
 	{
-		if (!Physics.CheckSphere(moveForward, .8f))
+		forwardDistance = GetTheDistance(moveForward, forwardDistance);
+		rightDistance = GetTheDistance(moveRight, rightDistance);
+		leftDistance = GetTheDistance(moveLeft, leftDistance);
+	}
+	
+	private float GetTheDistance(Vector3 movePosition, float positionDistance)
+	{
+		if (!Physics.CheckSphere(movePosition, .8f))
 		{
-			forwardDistance = Vector3.Distance(moveForward, apple);
+			return Vector3.Distance(movePosition, apple);
 		}
 		
 		else
 		{
-			if (Vector3.Distance(moveForward, apple) > 1)
+			if (Vector3.Distance(movePosition, apple) > 1)
 			{
-				forwardDistance = 10000;
+				return 10000;
 			}
 			
 			else
 			{
-				forwardDistance = 0;
-			}
-		}
-		
-		if (!Physics.CheckSphere(moveRight, .8f))
-		{
-			rightDistance = Vector3.Distance(moveRight, apple);
-		}
-		
-		else
-		{
-			if (Vector3.Distance(moveRight, apple) > 1)
-			{
-				rightDistance = 10000;
-			}
-			
-			else
-			{
-				rightDistance = 0;
-			}
-		}
-		
-		if (!Physics.CheckSphere(moveLeft, .8f))
-		{
-			leftDistance = Vector3.Distance(moveLeft, apple);
-		}
-		
-		else
-		{
-			if (Vector3.Distance(moveLeft, apple) > 1)
-			{
-				leftDistance = 10000;
-			}
-			
-			else
-			{
-				leftDistance = 0;
+				return 0;
 			}
 		}
 	}
