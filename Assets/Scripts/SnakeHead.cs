@@ -8,7 +8,7 @@ public class SnakeHead : MonoBehaviour
 	{
 		if (other.gameObject.tag != "Apple")
         {
-			Destroy(gameObject.transform.parent.gameObject.GetComponent<Snake>());
+			gameObject.transform.parent.gameObject.GetComponent<Snake>().SetIsAlive(false);
 		}
 	}
 }

@@ -38,8 +38,8 @@ public class PlayerController : MonoBehaviour
 	
 	private void FindOutMyInput()
 	{
-		right = KeyCode.D;
-		left = KeyCode.A;
+		left = GameObject.Find("Game Manager").GetComponent<GameManager>().GetLeftKey();
+		right = GameObject.Find("Game Manager").GetComponent<GameManager>().GetRightKey();
 	}
 	
 }

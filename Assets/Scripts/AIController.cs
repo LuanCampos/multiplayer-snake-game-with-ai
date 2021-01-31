@@ -8,7 +8,17 @@ public class AIController : MonoBehaviour
 	private bool justMove = true;
 	private float forwardDistance, rightDistance, leftDistance;
 	private Vector3 snakeHead, apple, moveForward, moveRight, moveLeft;
+	private GameObject myApple;
 
+	void Start()
+	{
+		FindOutMyApple();
+		// Need Correction...
+		GameObject.Find("Apple").GetComponent<Apple>().SetMySnakes(GameObject.Find("Snake").transform.GetChild(0).gameObject, GameObject.Find("Snake AI").transform.GetChild(0).gameObject);
+		myApple = GameObject.Find("Apple");
+		// Need Correction...
+	}
+	
     void Update()
     {
 		if (justMove)
@@ -29,10 +39,15 @@ public class AIController : MonoBehaviour
 		return nextMove;
 	}
 	
+	public void ChangeMyApple(GameObject newApple)
+	{
+		myApple = newApple;
+	}
+	
 	private void GetVectors()
 	{
 		snakeHead = gameObject.transform.GetChild(0).gameObject.transform.position;
-		apple = GameObject.Find("Apple").transform.position;
+		apple = myApple.transform.position;
 		
 		Vector3 goUp = new Vector3(0, 0, 1);
 		Vector3 goLeft = new Vector3(-1, 0, 0);
@@ -132,7 +147,11 @@ public class AIController : MonoBehaviour
 		{
 			nextMove = 2; //RIGHT
 		}
-		
+	}
+	
+	private void FindOutMyApple()
+	{
+		myApple = GameObject.Find("Game Manager").GetComponent<GameManager>().GetMyApple();
 	}
 	
 }

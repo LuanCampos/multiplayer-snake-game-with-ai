@@ -6,6 +6,7 @@ public class Snake : MonoBehaviour
 {
 	private AIController aiController = null;
 	private PlayerController playerController = null;
+	private bool isAlive = true;
 	private bool isAI = true;
 	
 	private int direction = 0;
@@ -24,7 +25,10 @@ public class Snake : MonoBehaviour
 
     void FixedUpdate()
     {
-		CountFrameAndMove();
+		if (isAlive)
+		{
+			CountFrameAndMove();
+		}
     }
 	
 	public void Grow()
@@ -37,6 +41,11 @@ public class Snake : MonoBehaviour
 	public int SnakeDirection()
 	{
 		return direction;
+	}
+	
+	public void SetIsAlive(bool info)
+	{
+		isAlive = info;
 	}
 	
 	private void GetControllerType()
