@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -10,24 +11,77 @@ public class GameManager : MonoBehaviour
 	
 	private GameObject apple, snakePlayer, snakeAI;
 	private GameObject choseKeysPanel, pressEnterPanel;
-	private TMP_Text leftKeyText, rightKeyText;
+	private InputField leftKeyText, rightKeyText;
 	private KeyCode leftKey, rightKey;
 	private bool isOddNumber = true;
 	private bool gameStarted = false;
 	private bool isTheFirstSnake = true;
-   
+	private bool readingLeftKey = false;
+	private bool readingRightKey = false;
+	
     void Start()
     {
 		SetVariables();
 		ResetPanels();
 		ShowPanels();
+		
+		leftKeyText.characterLimit = 1;
+		rightKeyText.characterLimit = 1;
+		
+		readingLeftKey = true;
     }
-
+	
     void Update()
     {
         if (!gameStarted)
 		{
+			if (readingLeftKey)
+			{
+				leftKeyText.ActivateInputField();
+				
+				if (leftKeyText.text.Length > 0)
+				{
+					char c = leftKeyText.text[0];
+					
+					if (char.IsDigit (c) || char.IsLetter (c))
+					{
+						string cString = c + "";
+						leftKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), cString.ToUpper());
+						leftKeyText.DeactivateInputField();
+						rightKeyText.ActivateInputField();
+						readingLeftKey = false;
+						readingRightKey = true;
+					}
+					
+					else
+					{
+						leftKeyText.text = "";
+					}
+				}
+			}
 			
+			if (readingRightKey)
+			{
+				rightKeyText.ActivateInputField();
+				
+				if (rightKeyText.text.Length > 0)
+				{
+					char c = rightKeyText.text[0];
+					
+					if (char.IsDigit (c) || char.IsLetter (c))
+					{
+						string cString = c + "";
+						rightKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), cString.ToUpper());
+						rightKeyText.DeactivateInputField();
+						readingRightKey = false;
+					}
+					
+					else
+					{
+						rightKeyText.text = "";
+					}
+				}
+			}			
 		}
     }
 	
@@ -50,8 +104,8 @@ public class GameManager : MonoBehaviour
 	{
 		choseKeysPanel = GameObject.Find("Chose Keys Panel");
 		pressEnterPanel = GameObject.Find("Press Enter Panel");
-		leftKeyText = GameObject.Find("Key 1").GetComponent<TMPro.TextMeshProUGUI>();
-		rightKeyText = GameObject.Find("Key 2").GetComponent<TMPro.TextMeshProUGUI>();
+		leftKeyText = GameObject.Find("InputField Left").GetComponent<InputField>();
+		rightKeyText = GameObject.Find("InputField Right").GetComponent<InputField>();
 	}
 	
 	private void ResetPanels()
