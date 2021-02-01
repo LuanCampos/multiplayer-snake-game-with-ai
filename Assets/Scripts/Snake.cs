@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+	public GameObject dotNormal, dotTimeTravel, dotPowerEngine, dotBatteringRam;
+	
 	private AIController aiController = null;
 	private PlayerController playerController = null;
 	private GameObject snakePair;
@@ -32,11 +34,31 @@ public class Snake : MonoBehaviour
 		}
     }
 	
-	public void Grow()
+	public void Grow(int appleType)
 	{
-		GameObject newDot = Instantiate(gameObject.transform.GetChild(1).gameObject, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
-		newDot.transform.parent = gameObject.transform;
-		snake.Add(newDot.transform);
+		switch (appleType)
+		{
+			case 3:
+				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x + 1), 0, Mathf.RoundToInt(snake[0].position.z));
+				break;
+			case 2:
+				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x), 0, Mathf.RoundToInt(snake[0].position.z - 1));
+				break;
+			case 1:
+				GameObject newDot = Instantiate(dotPowerEngine, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
+				newDot.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+				newDot.transform.parent = gameObject.transform;
+				snake.Add(newDot.transform);
+				SetVelocity(2);
+				break;
+			default:
+				GameObject newDot = Instantiate(dotNormal, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
+				newDot.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+				newDot.transform.parent = gameObject.transform;
+				snake.Add(newDot.transform);
+				SetVelocity(-1);
+				break;
+		}
 	}
 	
 	public int SnakeDirection()
@@ -90,6 +112,11 @@ public class Snake : MonoBehaviour
 	public void SetSnakePair(GameObject otherSnake)
 	{
 		snakePair = otherSnake;
+	}
+	
+	public void SetVelocity(int vel)
+	{
+		velocity =+ vel;
 	}
 	
 	private void GetControllerType()

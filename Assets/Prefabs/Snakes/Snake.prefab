@@ -374,3 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76d7b8509e0f6b4fbddd44ff0736736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dotNormal: {fileID: 3959543888246636405, guid: 416ae527128559544be7213328283be4, type: 3}
+  dotTimeTravel: {fileID: 3959543888246636405, guid: 08005e8e079d8b14e91bb93c69088334, type: 3}
+  dotPowerEngine: {fileID: 3959543888246636405, guid: f86fa00be3a0fec4cb1d6984707598f3, type: 3}
+  dotBatteringRam: {fileID: 3959543888246636405, guid: 0138ec051238dad4f80043dc5218ec78, type: 3}

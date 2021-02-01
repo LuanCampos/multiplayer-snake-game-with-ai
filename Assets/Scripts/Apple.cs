@@ -5,6 +5,7 @@ using UnityEngine;
 public class Apple : MonoBehaviour
 {
 	private bool gotCaught = false;
+	private int appleType = 0;
 	private GameObject mySnakePlayer, mySnakeAI;
 	
     void Awake()
@@ -20,7 +21,7 @@ public class Apple : MonoBehaviour
 		if (!gotCaught && (other.gameObject == mySnakePlayer || other.gameObject == mySnakeAI))
 		{
 			gotCaught = true;
-			other.gameObject.transform.parent.gameObject.GetComponent<Snake>().Grow();
+			other.gameObject.transform.parent.gameObject.GetComponent<Snake>().Grow(appleType);
 			
 			GameObject newApple = Instantiate(gameObject, new Vector3(-20, 0, -20), Quaternion.identity);
 			newApple.name = "Apple";
