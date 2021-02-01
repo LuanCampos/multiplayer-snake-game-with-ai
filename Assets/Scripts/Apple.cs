@@ -4,19 +4,34 @@ using UnityEngine;
 
 public class Apple : MonoBehaviour
 {
+	public Material dotNormal, dotTimeTravel, dotPowerEngine, dotBatteringRam;
+	
 	private bool gotCaught = false;
-	private int appleType = 0;
+	private int appleType;
 	private GameObject mySnakePlayer, mySnakeAI;
 	
     void Awake()
     {
-        while (Physics.CheckSphere(transform.position, .8f))
-		{
-			transform.position = new Vector3(Random.Range(-19, 20), 0f, Random.Range(-19, 20));
-		}
+		DontSpawnInsideSnake();
+		appleType = SetRandomAppleType();
+		AdjustRender();
     }
 	
-	void OnTriggerEnter(Collider other)
+	void Start()
+	{
+		if (mySnakeAI != null)
+		{
+			GetComponent<Renderer>().material.SetColor("_Color", mySnakeAI.GetComponent<Renderer>().material.color);
+		}
+	}
+	
+	public void SetMySnakes(GameObject snakePlayer, GameObject snakeAI)
+	{
+		mySnakePlayer = snakePlayer;
+		mySnakeAI = snakeAI;
+	}
+	
+	private void OnTriggerEnter(Collider other)
 	{		
 		if (!gotCaught && (other.gameObject == mySnakePlayer || other.gameObject == mySnakeAI))
 		{
@@ -32,9 +47,43 @@ public class Apple : MonoBehaviour
 		}
 	}
 	
-	public void SetMySnakes(GameObject snakePlayer, GameObject snakeAI)
+	private void DontSpawnInsideSnake()
 	{
-		mySnakePlayer = snakePlayer;
-		mySnakeAI = snakeAI;
+		while (Physics.CheckSphere(transform.position, .8f))
+		{
+			transform.position = new Vector3(Random.Range(-19, 20), 0f, Random.Range(-19, 20));
+		}
+	}
+	
+	private int SetRandomAppleType()
+	{
+		if (Random.Range(0, 2) == 0)
+		{
+			return Random.Range(0, 2);
+		}
+		
+		else
+		{
+			return Random.Range(0, 4);
+		}
+	}
+	
+	private void AdjustRender()
+	{
+		switch (appleType)
+		{
+			case 3:
+				GetComponent<MeshRenderer>().material = dotTimeTravel;
+				break;
+			case 2:
+				GetComponent<MeshRenderer>().material = dotBatteringRam;
+				break;
+			case 1:
+				GetComponent<MeshRenderer>().material = dotPowerEngine;
+				break;
+			default:
+				GetComponent<MeshRenderer>().material = dotNormal;
+				break;
+		}
 	}
 }

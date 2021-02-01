@@ -37,7 +37,6 @@ public class Snake : MonoBehaviour
 	public void Grow(int appleType)
 	{
 		GameObject newDot = null;
-		Debug.Log(snake[snake.Count - 1]);
 		
 		switch (appleType)
 		{
@@ -119,9 +118,9 @@ public class Snake : MonoBehaviour
 		snakePair = otherSnake;
 	}
 	
-	public void SetVelocity(int vel)
+	private void SetVelocity(int vel)
 	{
-		velocity =+ vel;
+		velocity += vel;
 	}
 	
 	private void GetControllerType()

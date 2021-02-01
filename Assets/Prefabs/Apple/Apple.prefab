@@ -108,3 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5794e740b8f92ea4fbe16de27b96d7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dotNormal: {fileID: 2100000, guid: b1dcbc6ebf108934893fdd4463fad5e5, type: 2}
+  dotTimeTravel: {fileID: 2100000, guid: 91837a1b2e5cbcf4d803c59f5bf66ba5, type: 2}
+  dotPowerEngine: {fileID: 2100000, guid: d544cf475048ba24fbb0bddbf6c59188, type: 2}
+  dotBatteringRam: {fileID: 2100000, guid: 098ecbe9774908b4db52f4d58931c4d0, type: 2}
