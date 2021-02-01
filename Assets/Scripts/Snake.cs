@@ -36,29 +36,32 @@ public class Snake : MonoBehaviour
 	
 	public void Grow(int appleType)
 	{
+		GameObject newDot = null;
+		Debug.Log(snake[snake.Count - 1]);
+		
 		switch (appleType)
 		{
 			case 3:
-				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x + 1), 0, Mathf.RoundToInt(snake[0].position.z));
+				newDot = Instantiate(dotTimeTravel, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
+				// snake.Count will be the index
 				break;
 			case 2:
-				snake[0].position = new Vector3(Mathf.RoundToInt(snake[0].position.x), 0, Mathf.RoundToInt(snake[0].position.z - 1));
+				newDot = Instantiate(dotBatteringRam, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
+				// snake.Count will be the index
 				break;
 			case 1:
-				GameObject newDot = Instantiate(dotPowerEngine, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
-				newDot.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
-				newDot.transform.parent = gameObject.transform;
-				snake.Add(newDot.transform);
+				newDot = Instantiate(dotPowerEngine, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
 				SetVelocity(2);
 				break;
 			default:
-				GameObject newDot = Instantiate(dotNormal, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
-				newDot.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
-				newDot.transform.parent = gameObject.transform;
-				snake.Add(newDot.transform);
-				SetVelocity(-1);
+				newDot = Instantiate(dotNormal, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
 				break;
 		}
+		
+		newDot.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+		newDot.transform.parent = gameObject.transform;
+		snake.Add(newDot.transform);
+		SetVelocity(-1);
 	}
 	
 	public int SnakeDirection()
@@ -95,6 +98,8 @@ public class Snake : MonoBehaviour
 						snake.RemoveAt(i);
 					}
 				}
+				
+				SetVelocity(-velocity + 15);
 			}
 			
 			else
