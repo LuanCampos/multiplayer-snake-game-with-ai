@@ -5,6 +5,7 @@ using UnityEngine;
 public class Snake : MonoBehaviour
 {
 	public GameObject dotNormal, dotTimeTravel, dotPowerEngine, dotBatteringRam;
+	public Material dotNormalMat, dotTimeTravelMat, dotPowerEngineMat, dotBatteringRamMat;
 	
 	private AIController aiController = null;
 	private PlayerController playerController = null;
@@ -12,6 +13,7 @@ public class Snake : MonoBehaviour
 	private bool isAlive = false;
 	private bool isAI = true;
 	
+	private int snakeType = 0;
 	private int direction = 0;
 	private int velocity = 15;
 	private int nextMove = 0;
@@ -44,7 +46,15 @@ public class Snake : MonoBehaviour
 		{
 			case 3:
 				newDot = Instantiate(dotTimeTravel, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
+				
+				if (timeTravel.Count > 0)
+				{
+					transform.GetChild(timeTravel.Count).gameObject.GetComponent<Renderer>().material = dotNormalMat;
+					transform.GetChild(timeTravel.Count).gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color); 
+				}
+				
 				timeTravel = new List<Vector3>();
+				
 				foreach(Transform dot in snake)
 				{
 				   timeTravel.Add(dot.position);
@@ -121,6 +131,38 @@ public class Snake : MonoBehaviour
 	public void SetSnakePair(GameObject otherSnake)
 	{
 		snakePair = otherSnake;
+	}
+	
+	public void ChangeSnakeType()
+	{
+		switch (snakeType)
+		{
+			case 2:
+				ChangeSnakeRenderer(dotNormalMat);
+				batteringRam = new List<int>();
+				snakeType = 0;
+				break;
+			case 1:
+				ChangeSnakeRenderer(dotBatteringRamMat);
+				batteringRam.Add(1);
+				batteringRam.Add(2);
+				SetVelocity(-4);
+				snakeType = 2;
+				break;
+			default:
+				ChangeSnakeRenderer(dotPowerEngineMat);
+				SetVelocity(4);
+				snakeType = 1;
+				break;
+		}
+	}
+	
+	private void ChangeSnakeRenderer(Material mat)
+	{
+		snake[1].gameObject.GetComponent<Renderer>().material = mat;
+		snake[2].gameObject.GetComponent<Renderer>().material = mat;
+		snake[1].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+		snake[2].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
 	}
 	
 	private void SetVelocity(int vel)
@@ -260,4 +302,5 @@ public class Snake : MonoBehaviour
 			isAlive = false;
 		}
 	}
+	
 }

@@ -203,7 +203,8 @@ public class GameManager : MonoBehaviour
 			{
 				if (frameCount > 50)
 				{
-					// TROCAR DE SNAKE
+					snakeAI.GetComponent<Snake>().ChangeSnakeType();
+					snakePlayer.GetComponent<Snake>().ChangeSnakeType();
 					frameCount = 0;
 				}
 				frameCount ++;

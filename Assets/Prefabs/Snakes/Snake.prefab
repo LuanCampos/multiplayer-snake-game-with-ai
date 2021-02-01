@@ -378,3 +378,7 @@ MonoBehaviour:
   dotTimeTravel: {fileID: 3959543888246636405, guid: 08005e8e079d8b14e91bb93c69088334, type: 3}
   dotPowerEngine: {fileID: 3959543888246636405, guid: f86fa00be3a0fec4cb1d6984707598f3, type: 3}
   dotBatteringRam: {fileID: 3959543888246636405, guid: 0138ec051238dad4f80043dc5218ec78, type: 3}
+  dotNormalMat: {fileID: 2100000, guid: b1dcbc6ebf108934893fdd4463fad5e5, type: 2}
+  dotTimeTravelMat: {fileID: 2100000, guid: 91837a1b2e5cbcf4d803c59f5bf66ba5, type: 2}
+  dotPowerEngineMat: {fileID: 2100000, guid: d544cf475048ba24fbb0bddbf6c59188, type: 2}
+  dotBatteringRamMat: {fileID: 2100000, guid: 098ecbe9774908b4db52f4d58931c4d0, type: 2}
