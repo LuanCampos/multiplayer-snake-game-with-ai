@@ -14,15 +14,12 @@ public class Apple : MonoBehaviour
     {
 		DontSpawnInsideSnake();
 		appleType = SetRandomAppleType();
-		AdjustRender();
+		AdjustMaterial();
     }
 	
 	void Start()
 	{
-		if (mySnakeAI != null)
-		{
-			GetComponent<Renderer>().material.SetColor("_Color", mySnakeAI.GetComponent<Renderer>().material.color);
-		}
+		AdjustColor();
 	}
 	
 	public void SetMySnakes(GameObject snakePlayer, GameObject snakeAI)
@@ -68,7 +65,7 @@ public class Apple : MonoBehaviour
 		}
 	}
 	
-	private void AdjustRender()
+	private void AdjustMaterial()
 	{
 		switch (appleType)
 		{
@@ -84,6 +81,14 @@ public class Apple : MonoBehaviour
 			default:
 				GetComponent<MeshRenderer>().material = dotNormal;
 				break;
+		}
+	}
+	
+	private void AdjustColor()
+	{
+		if (mySnakeAI != null)
+		{
+			GetComponent<Renderer>().material.SetColor("_Color", mySnakeAI.GetComponent<Renderer>().material.color);
 		}
 	}
 }

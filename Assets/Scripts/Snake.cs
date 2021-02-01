@@ -18,6 +18,8 @@ public class Snake : MonoBehaviour
 	private int counter = 0;
 	
 	private List<Transform> snake = new List<Transform>();
+	private List<Transform> timeTravel = new List<Transform>();
+	private List<int> batteringRam = new List<int>();
 	
     void Start()
     {
@@ -42,11 +44,11 @@ public class Snake : MonoBehaviour
 		{
 			case 3:
 				newDot = Instantiate(dotTimeTravel, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
-				// snake.Count will be the index
+				timeTravel = snake;
 				break;
 			case 2:
 				newDot = Instantiate(dotBatteringRam, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
-				// snake.Count will be the index
+				batteringRam.Add(snake.Count);
 				break;
 			case 1:
 				newDot = Instantiate(dotPowerEngine, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
