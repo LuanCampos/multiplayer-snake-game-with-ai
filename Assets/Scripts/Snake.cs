@@ -6,7 +6,7 @@ public class Snake : MonoBehaviour
 {
 	private AIController aiController = null;
 	private PlayerController playerController = null;
-	private bool isAlive = true;
+	private bool isAlive = false;
 	private bool isAI = true;
 	
 	private int direction = 0;
@@ -46,6 +46,11 @@ public class Snake : MonoBehaviour
 	public void SetIsAlive(bool info)
 	{
 		isAlive = info;
+	}
+	
+	public bool GetIsAlive()
+	{
+		return isAlive;
 	}
 	
 	private void GetControllerType()

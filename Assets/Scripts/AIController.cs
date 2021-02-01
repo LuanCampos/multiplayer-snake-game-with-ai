@@ -9,19 +9,10 @@ public class AIController : MonoBehaviour
 	private float forwardDistance, rightDistance, leftDistance;
 	private Vector3 snakeHead, apple, moveForward, moveRight, moveLeft;
 	private GameObject myApple;
-
-	void Start()
-	{
-		FindOutMyApple();
-		// Need Correction...
-		GameObject.Find("Apple").GetComponent<Apple>().SetMySnakes(GameObject.Find("Snake").transform.GetChild(0).gameObject, GameObject.Find("Snake AI").transform.GetChild(0).gameObject);
-		myApple = GameObject.Find("Apple");
-		// Need Correction...
-	}
 	
     void Update()
     {
-		if (justMove)
+		if (GetComponent<Snake>().GetIsAlive() && justMove)
 		{
 			GetVectors();
 			CalculateDistance();
@@ -54,31 +45,28 @@ public class AIController : MonoBehaviour
 		Vector3 goRight = new Vector3(1, 0, 0);
 		Vector3 goDown = new Vector3(0, 0, -1);
 		
-		if (GetComponent<Snake>() != null)
-		{		
-			switch (GetComponent<Snake>().SnakeDirection())
-			{
-				case 3: //RIGHT
-					moveForward = snakeHead + goRight;
-					moveRight = snakeHead + goDown;
-					moveLeft = snakeHead + goUp;
-					break;
-				case 2: //DOWN
-					moveForward = snakeHead + goDown;
-					moveRight = snakeHead + goLeft;
-					moveLeft = snakeHead + goRight;
-					break;
-				case 1: //LEFT
-					moveForward = snakeHead + goLeft;
-					moveRight = snakeHead + goUp;
-					moveLeft = snakeHead + goDown;
-					break;
-				default: //UP
-					moveForward = snakeHead + goUp;
-					moveRight = snakeHead + goRight;
-					moveLeft = snakeHead + goLeft;
-					break;
-			}
+		switch (GetComponent<Snake>().SnakeDirection())
+		{
+			case 3: //RIGHT
+				moveForward = snakeHead + goRight;
+				moveRight = snakeHead + goDown;
+				moveLeft = snakeHead + goUp;
+				break;
+			case 2: //DOWN
+				moveForward = snakeHead + goDown;
+				moveRight = snakeHead + goLeft;
+				moveLeft = snakeHead + goRight;
+				break;
+			case 1: //LEFT
+				moveForward = snakeHead + goLeft;
+				moveRight = snakeHead + goUp;
+				moveLeft = snakeHead + goDown;
+				break;
+			default: //UP
+				moveForward = snakeHead + goUp;
+				moveRight = snakeHead + goRight;
+				moveLeft = snakeHead + goLeft;
+				break;
 		}
 	}
 	
@@ -147,11 +135,6 @@ public class AIController : MonoBehaviour
 		{
 			nextMove = 2; //RIGHT
 		}
-	}
-	
-	private void FindOutMyApple()
-	{
-		myApple = GameObject.Find("Game Manager").GetComponent<GameManager>().GetMyApple();
 	}
 	
 }

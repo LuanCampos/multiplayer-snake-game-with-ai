@@ -16,15 +16,17 @@ public class Apple : MonoBehaviour
     }
 	
 	void OnCollisionEnter(Collision other)
-	{
+	{		
 		if (!gotCaught && (other.gameObject == mySnakePlayer || other.gameObject == mySnakeAI))
 		{
 			gotCaught = true;
 			other.gameObject.transform.parent.gameObject.GetComponent<Snake>().Grow();
+			
 			GameObject newApple = Instantiate(gameObject, new Vector3(-20, 0, -20), Quaternion.identity);
 			newApple.name = "Apple";
 			newApple.GetComponent<Apple>().SetMySnakes(mySnakePlayer, mySnakeAI);
 			mySnakeAI.transform.parent.gameObject.GetComponent<AIController>().ChangeMyApple(newApple);
+			
 			Destroy(this.gameObject);
 		}
 	}

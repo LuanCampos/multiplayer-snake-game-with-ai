@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
 	public GameObject snakePrefab;
 	public GameObject snakeAIPrefab;
+	public GameObject applePrefab;
 	
 	private GameObject apple, snakePlayer, snakeAI;
 	private GameObject choseKeysPanel, pressEnterPanel;
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
 	private bool readingLeftKey = false;
 	private bool readingRightKey = false;
 	private int frameCount = 0;	
-	// private int snakeCount = 0;
+	private int snakeCount = 0;
 	
     void Start()
     {
@@ -101,9 +102,17 @@ public class GameManager : MonoBehaviour
 	{
 		if (!isTheFirstSnake && !readingRightKey)
 		{
-			if (Input.GetKeyDown(KeyCode.Return)
+			if (Input.GetKeyDown(KeyCode.Return))
 			{
-				// START THE GAME
+				leftKeyText.DeactivateInputField();
+				rightKeyText.DeactivateInputField();
+				choseKeysPanel.SetActive(false);
+				pressEnterPanel.SetActive(false);
+				
+				foreach (GameObject snakeHead in GameObject.FindGameObjectsWithTag("SnakeHead"))
+				{
+					snakeHead.transform.parent.gameObject.GetComponent<Snake>().SetIsAlive(true);
+				}
 			}
 		}
 	}
@@ -118,15 +127,17 @@ public class GameManager : MonoBehaviour
 			{
 				char c = leftKeyText.text[0];
 				
-				if (char.IsDigit (c) || char.IsLetter (c))
+				if (char.IsDigit (c) || char.IsLetter (c)) // CHECAR SE É REPETIDO
 				{
 					string cString = c + "";
 					leftKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), cString.ToUpper());
+					
 					leftKeyText.DeactivateInputField();
 					rightKeyText.ActivateInputField();
 					readingLeftKey = false;
 					readingRightKey = true;
-					// SPAWN THE SNAKE
+					
+					SpawnTheSnake();
 				}
 				
 				else
@@ -160,6 +171,25 @@ public class GameManager : MonoBehaviour
 		}
 	}
 	
+	private void SpawnTheSnake()
+	{
+		Vector3 pos = new Vector3 (0, 0, 0);
+			
+		if (isOddNumber)
+		{
+			pos = new Vector3 (-15 + (snakeCount * 3), 0, 0);
+		}
+			
+		else
+		{
+			pos = new Vector3 (15 - (snakeCount * 3), 0, 0);
+		}
+		
+		snakePlayer = Instantiate(snakePrefab, new Vector3(0, 0, -12) + pos, Quaternion.identity);
+		snakeAI = Instantiate(snakeAIPrefab, new Vector3(0, 0, 10) + pos, Quaternion.identity);
+		apple = Instantiate(applePrefab, new Vector3(0, 0, 0) + pos, Quaternion.identity);
+	}
+	
 	private void ChangeTheSnake()
 	{
 		if (!readingLeftKey && !readingRightKey)
@@ -182,10 +212,14 @@ public class GameManager : MonoBehaviour
 		{
 			if (!Input.GetKey(rightKey))
 			{
-				// SETAR A PORRA TODA
+				snakePlayer.GetComponent<PlayerController>().SetMyInput(leftKey, rightKey);
+				snakeAI.GetComponent<AIController>().ChangeMyApple(apple);
+				apple.GetComponent<Apple>().SetMySnakes(snakePlayer.transform.GetChild(0).gameObject, snakeAI.transform.GetChild(0).gameObject);
+				
 				frameCount = 0;
 				isTheFirstSnake = false;
 				isOddNumber = !isOddNumber;
+				snakeCount ++;
 				ResetPanels();
 				ShowPanels();
 			}
