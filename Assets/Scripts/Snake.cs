@@ -141,22 +141,33 @@ public class Snake : MonoBehaviour
 	{
 		switch (snakeType)
 		{
-			case 2:
-				ChangeSnakeRenderer(dotNormalMat);
+			case 3:
+				ChangeSnakeRenderer(dotNormalMat, 0);
 				batteringRam = new List<int>();
 				snakeType = 0;
 				break;
-			case 1:
-				ChangeSnakeRenderer(dotBatteringRamMat);
+			case 2:
+				ChangeSnakeRenderer(dotBatteringRamMat, 0);
 				batteringRam.Add(1);
 				batteringRam.Add(2);
 				batteringRam.Add(3);
-				SetVelocity(-4);
+				SetVelocity(-3);
+				snakeType = 3;
+				break;
+			case 1:
+				ChangeSnakeRenderer(dotPowerEngineMat, 0);
+				timeTravel = new List<Vector3>();
+				batteringRam = new List<int>();
+				SetVelocity(2);
 				snakeType = 2;
 				break;
-			default:
-				ChangeSnakeRenderer(dotPowerEngineMat);
-				SetVelocity(4);
+			default:			
+				ChangeSnakeRenderer(dotNormalMat, 1);
+				batteringRam.Add(2);
+				timeTravel.Add(snake[0].position);
+				timeTravel.Add(snake[1].position);
+				timeTravel.Add(snake[2].position);
+				SetVelocity(1);
 				snakeType = 1;
 				break;
 		}
@@ -167,12 +178,25 @@ public class Snake : MonoBehaviour
 		myScore = scoreText;
 	}
 	
-	private void ChangeSnakeRenderer(Material mat)
+	private void ChangeSnakeRenderer(Material mat, int j)
 	{
-		for (int i = 3; i > 0; i--)
+		if (j == 0)
 		{
-			snake[i].gameObject.GetComponent<Renderer>().material = mat;
-			snake[i].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+			for (int i = 3; i > 0; i--)
+			{
+				snake[i].gameObject.GetComponent<Renderer>().material = mat;
+				snake[i].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+			}
+		}
+		
+		else
+		{
+			snake[1].gameObject.GetComponent<Renderer>().material = dotPowerEngineMat;
+			snake[1].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+			snake[2].gameObject.GetComponent<Renderer>().material = dotBatteringRamMat;
+			snake[2].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+			snake[3].gameObject.GetComponent<Renderer>().material = dotTimeTravelMat;
+			snake[3].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
 		}
 	}
 	
