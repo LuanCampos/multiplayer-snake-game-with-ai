@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 	private GameObject choseKeysPanel, pressEnterPanel;
 	private InputField leftKeyText, rightKeyText;
 	private KeyCode leftKey, rightKey;
+	private List<char> keysUsing = new List<char>();
 	private bool isOddNumber = true;
 	private bool gameStarted = false;
 	private bool isTheFirstSnake = true;
@@ -127,10 +128,11 @@ public class GameManager : MonoBehaviour
 			{
 				char c = leftKeyText.text[0];
 				
-				if (char.IsDigit (c) || char.IsLetter (c)) // CHECAR SE É REPETIDO
+				if ((char.IsDigit (c) || char.IsLetter (c)) && !keysUsing.Contains(c))
 				{
 					string cString = c + "";
 					leftKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), cString.ToUpper());
+					keysUsing.Add(c);
 					
 					leftKeyText.DeactivateInputField();
 					rightKeyText.ActivateInputField();
@@ -146,7 +148,7 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
-			
+		
 		if (readingRightKey)
 		{
 			rightKeyText.ActivateInputField();
@@ -155,10 +157,12 @@ public class GameManager : MonoBehaviour
 			{
 				char c = rightKeyText.text[0];
 				
-				if (char.IsDigit (c) || char.IsLetter (c))
+				if ((char.IsDigit (c) || char.IsLetter (c)) && !keysUsing.Contains(c))
 				{
 					string cString = c + "";
 					rightKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), cString.ToUpper());
+					keysUsing.Add(c);
+					
 					rightKeyText.DeactivateInputField();
 					readingRightKey = false;
 				}
