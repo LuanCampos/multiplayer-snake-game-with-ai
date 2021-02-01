@@ -15,7 +15,7 @@ public class Apple : MonoBehaviour
 		}
     }
 	
-	void OnCollisionEnter(Collision other)
+	void OnTriggerEnter(Collider other)
 	{		
 		if (!gotCaught && (other.gameObject == mySnakePlayer || other.gameObject == mySnakeAI))
 		{

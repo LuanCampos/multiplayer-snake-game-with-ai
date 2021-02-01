@@ -6,6 +6,7 @@ public class Snake : MonoBehaviour
 {
 	private AIController aiController = null;
 	private PlayerController playerController = null;
+	private GameObject snakePair;
 	private bool isAlive = false;
 	private bool isAI = true;
 	
@@ -51,6 +52,44 @@ public class Snake : MonoBehaviour
 	public bool GetIsAlive()
 	{
 		return isAlive;
+	}
+	
+	public void HasDie()
+	{
+		if (isAI)
+		{
+			if (snakePair.GetComponent<Snake>().GetIsAlive())
+			{				
+				for (int i = transform.childCount - 1; i >= 0; i--)
+				{
+					if (i < 3)
+					{
+						transform.GetChild(i).position = new Vector3 (17, 0, -17);
+					}
+					
+					else
+					{
+						Destroy(transform.GetChild(i).gameObject);
+						snake.RemoveAt(i);
+					}
+				}
+			}
+			
+			else
+			{
+				isAlive = false;
+			}
+		}
+		
+		else
+		{
+			isAlive = false;
+		}
+	}
+	
+	public void SetSnakePair(GameObject otherSnake)
+	{
+		snakePair = otherSnake;
 	}
 	
 	private void GetControllerType()

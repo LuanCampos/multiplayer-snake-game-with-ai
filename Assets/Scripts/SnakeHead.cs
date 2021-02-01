@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeHead : MonoBehaviour
-{
-	void OnCollisionEnter(Collision other)
+{	
+	void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag != "Apple")
         {
-			gameObject.transform.parent.gameObject.GetComponent<Snake>().SetIsAlive(false);
+			gameObject.transform.parent.gameObject.GetComponent<Snake>().HasDie();
 		}
 	}
 }

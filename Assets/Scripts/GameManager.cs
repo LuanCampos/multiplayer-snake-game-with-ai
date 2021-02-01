@@ -192,6 +192,7 @@ public class GameManager : MonoBehaviour
 		snakePlayer = Instantiate(snakePrefab, new Vector3(0, 0, -12) + pos, Quaternion.identity);
 		snakeAI = Instantiate(snakeAIPrefab, new Vector3(0, 0, 10) + pos, Quaternion.identity);
 		apple = Instantiate(applePrefab, new Vector3(0, 0, 0) + pos, Quaternion.identity);
+		SetColor();
 	}
 	
 	private void ChangeTheSnake()
@@ -218,6 +219,7 @@ public class GameManager : MonoBehaviour
 			{
 				snakePlayer.GetComponent<PlayerController>().SetMyInput(leftKey, rightKey);
 				snakeAI.GetComponent<AIController>().ChangeMyApple(apple);
+				snakeAI.GetComponent<Snake>().SetSnakePair(snakePlayer);
 				apple.GetComponent<Apple>().SetMySnakes(snakePlayer.transform.GetChild(0).gameObject, snakeAI.transform.GetChild(0).gameObject);
 				
 				frameCount = 0;
@@ -228,6 +230,45 @@ public class GameManager : MonoBehaviour
 				ShowPanels();
 			}
 		}
+	}
+	
+	private void SetColor()
+	{
+		Color myColor = Color.white;
+		
+		switch (snakeCount % 6)
+		{
+			case 5:
+				myColor = Color.red;
+				break;
+			case 4:
+				myColor = Color.blue;
+				break;
+			case 3:
+				myColor = Color.green;
+				break;
+			case 2:
+				myColor = Color.magenta;
+				break;
+			case 1:
+				myColor = Color.yellow;
+				break;
+			default:
+				myColor = Color.cyan;
+				break;
+		}
+		
+		foreach(Transform child in snakePlayer.transform)
+		{
+			child.gameObject.GetComponent<Renderer>().material.SetColor("_Color", myColor);
+		}
+		
+		foreach(Transform child in snakeAI.transform)
+		{
+			child.gameObject.GetComponent<Renderer>().material.SetColor("_Color", myColor);
+		}
+
+		apple.GetComponent<Renderer>().material.SetColor("_Color", myColor);
 	}
 	
 }
