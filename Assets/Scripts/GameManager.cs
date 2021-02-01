@@ -1,17 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-	public GameObject snakePrefab;
-	public GameObject snakeAIPrefab;
-	public GameObject applePrefab;
+	public GameObject snakePrefab, snakeAIPrefab, applePrefab, scorePanel;
 	
 	private GameObject apple, snakePlayer, snakeAI;
-	private GameObject choseKeysPanel, pressEnterPanel;
+	private GameObject choseKeysPanel, pressEnterPanel, resetButton;
 	private InputField leftKeyText, rightKeyText;
 	private KeyCode leftKey, rightKey;
 	private List<char> keysUsing = new List<char>();
@@ -56,12 +55,32 @@ public class GameManager : MonoBehaviour
 		return apple;
 	}
 	
+	public void ReloadScene()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+	
+	public void SnakeDie()
+	{
+		if (snakeCount == 1)
+		{
+			resetButton.SetActive(true);
+		}
+		
+		else
+		{
+			snakeCount --;
+		}
+	}
+	
 	private void SetVariables()
 	{
 		choseKeysPanel = GameObject.Find("Chose Keys Panel");
 		pressEnterPanel = GameObject.Find("Press Enter Panel");
 		leftKeyText = GameObject.Find("InputField Left").GetComponent<InputField>();
 		rightKeyText = GameObject.Find("InputField Right").GetComponent<InputField>();
+		resetButton = GameObject.Find("Reset Button");
+		resetButton.SetActive(false);
 		leftKeyText.characterLimit = 1;
 		rightKeyText.characterLimit = 1;
 	}
@@ -140,6 +159,7 @@ public class GameManager : MonoBehaviour
 					readingRightKey = true;
 					
 					SpawnTheSnake();
+					SpawnScorePanel();
 				}
 				
 				else
@@ -191,7 +211,7 @@ public class GameManager : MonoBehaviour
 		
 		snakePlayer = Instantiate(snakePrefab, new Vector3(0, 0, -12) + pos, Quaternion.identity);
 		snakeAI = Instantiate(snakeAIPrefab, new Vector3(0, 0, 10) + pos, Quaternion.identity);
-		apple = Instantiate(applePrefab, new Vector3(0, 0, 0) + pos, Quaternion.identity);
+		apple = Instantiate(applePrefab, new Vector3(0, 0, 0) + pos, Quaternion.identity);		
 		SetColor();
 	}
 	
@@ -231,6 +251,26 @@ public class GameManager : MonoBehaviour
 				ShowPanels();
 			}
 		}
+	}
+	
+	private void SpawnScorePanel()
+	{
+		GameObject newScorePanel;
+		
+		if (isOddNumber)
+		{
+			newScorePanel = Instantiate(scorePanel, new Vector3(-635, (snakeCount / 2) * -75, 0), Quaternion.identity) as GameObject;
+		}
+		
+		else
+		{
+			newScorePanel = Instantiate(scorePanel, new Vector3(67, (snakeCount / 2) * -75, 0), Quaternion.identity) as GameObject;
+		}
+		
+		newScorePanel.transform.SetParent(GameObject.Find("Canvas").transform, false);
+		newScorePanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "Score Player " + (snakeCount + 1) + ":";
+		newScorePanel.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+		snakePlayer.GetComponent<Snake>().SetScoreTextVariable(newScorePanel.transform.GetChild(1).GetComponent<TMP_Text>());
 	}
 	
 	private void SetColor()

@@ -25,4 +25,13 @@ public class SnakeHead : MonoBehaviour
 			}
 		}
 	}
+	
+	void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.tag == "SnakeHead")
+		{
+			Physics.IgnoreCollision(collision.collider, GetComponent<Collider>());
+		}
+	}
+	
 }

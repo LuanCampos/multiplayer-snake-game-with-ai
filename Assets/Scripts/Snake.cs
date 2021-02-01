@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Snake : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Snake : MonoBehaviour
 	private AIController aiController = null;
 	private PlayerController playerController = null;
 	private GameObject snakePair;
+	private TMP_Text myScore;
 	private bool isAlive = false;
 	private bool isAI = true;
 	
@@ -18,6 +20,7 @@ public class Snake : MonoBehaviour
 	private int velocity = 15;
 	private int nextMove = 0;
 	private int counter = 0;
+	private int score = 0;
 	
 	private List<Transform> snake = new List<Transform>();
 	private List<Vector3> timeTravel = new List<Vector3>();
@@ -77,6 +80,7 @@ public class Snake : MonoBehaviour
 		newDot.transform.parent = gameObject.transform;
 		snake.Add(newDot.transform);
 		SetVelocity(-1);
+		SetScore(50);
 	}
 	
 	public int SnakeDirection()
@@ -146,6 +150,7 @@ public class Snake : MonoBehaviour
 				ChangeSnakeRenderer(dotBatteringRamMat);
 				batteringRam.Add(1);
 				batteringRam.Add(2);
+				batteringRam.Add(3);
 				SetVelocity(-4);
 				snakeType = 2;
 				break;
@@ -157,12 +162,18 @@ public class Snake : MonoBehaviour
 		}
 	}
 	
+	public void SetScoreTextVariable(TMP_Text scoreText)
+	{
+		myScore = scoreText;
+	}
+	
 	private void ChangeSnakeRenderer(Material mat)
 	{
-		snake[1].gameObject.GetComponent<Renderer>().material = mat;
-		snake[2].gameObject.GetComponent<Renderer>().material = mat;
-		snake[1].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
-		snake[2].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+		for (int i = 3; i > 0; i--)
+		{
+			snake[i].gameObject.GetComponent<Renderer>().material = mat;
+			snake[i].gameObject.GetComponent<Renderer>().material.SetColor("_Color", snake[0].gameObject.GetComponent<Renderer>().material.color);
+		}
 	}
 	
 	private void SetVelocity(int vel)
@@ -195,6 +206,7 @@ public class Snake : MonoBehaviour
 		{
 			GetDirection();
 			MoveTheSnake();
+			SetScore(1);
 			ResetCounter();
 		}
 		
@@ -263,6 +275,16 @@ public class Snake : MonoBehaviour
 		}
 	}
 	
+	private void SetScore(int points)
+	{
+		score += points;
+		
+		if (!isAI)
+		{
+			myScore.text = "" + score;
+		}
+	}
+	
 	private void ResetCounter()
 	{
 		counter = 20 - velocity;
@@ -300,6 +322,7 @@ public class Snake : MonoBehaviour
 		else
 		{
 			isAlive = false;
+			GameObject.Find("Game Manager").GetComponent<GameManager>().SnakeDie();
 		}
 	}
 	
