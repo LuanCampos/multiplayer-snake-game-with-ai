@@ -18,7 +18,7 @@ public class Snake : MonoBehaviour
 	private int counter = 0;
 	
 	private List<Transform> snake = new List<Transform>();
-	private List<Transform> timeTravel = new List<Transform>();
+	private List<Vector3> timeTravel = new List<Vector3>();
 	private List<int> batteringRam = new List<int>();
 	
     void Start()
@@ -44,7 +44,11 @@ public class Snake : MonoBehaviour
 		{
 			case 3:
 				newDot = Instantiate(dotTimeTravel, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
-				timeTravel = snake;
+				timeTravel = new List<Vector3>();
+				foreach(Transform dot in snake)
+				{
+				   timeTravel.Add(dot.position);
+				}
 				break;
 			case 2:
 				newDot = Instantiate(dotBatteringRam, gameObject.transform.GetChild(1).gameObject.transform.position, Quaternion.identity);
@@ -80,38 +84,37 @@ public class Snake : MonoBehaviour
 		return isAlive;
 	}
 	
-	public void HasDie()
+	public void HasCrash()
 	{
-		if (isAI)
+		if (timeTravel.Count < 1 && batteringRam.Count < 1)
 		{
-			if (snakePair.GetComponent<Snake>().GetIsAlive())
-			{				
-				for (int i = transform.childCount - 1; i >= 0; i--)
-				{
-					if (i < 3)
-					{
-						transform.GetChild(i).position = new Vector3 (17, 0, -17);
-					}
-					
-					else
-					{
-						Destroy(transform.GetChild(i).gameObject);
-						snake.RemoveAt(i);
-					}
-				}
-				
-				SetVelocity(-velocity + 15);
-			}
-			
-			else
-			{
-				isAlive = false;
-			}
+			HasDied();
 		}
 		
 		else
 		{
-			isAlive = false;
+			if (batteringRam.Count > 0 && batteringRam[batteringRam.Count -1] > timeTravel.Count)
+			{
+				Destroy(transform.GetChild(batteringRam[batteringRam.Count -1]).gameObject);
+				snake.RemoveAt(batteringRam[batteringRam.Count -1]);
+				batteringRam.RemoveAt(batteringRam.Count -1);
+			}
+			
+			else
+			{
+				for (int i = snake.Count - timeTravel.Count; i > 0; i--)
+				{
+					Destroy(transform.GetChild(transform.childCount - 1).gameObject);
+					snake.RemoveAt(snake.Count - 1);
+				}
+				
+				for (int i = timeTravel.Count - 1; i >= 0; i--)
+				{
+					snake[i].position = timeTravel[i];
+				}
+				
+				timeTravel = new List<Vector3>();			
+			}
 		}
 	}
 	
@@ -222,5 +225,39 @@ public class Snake : MonoBehaviour
 	{
 		counter = 20 - velocity;
 	}
-
+	
+	private void HasDied()
+	{
+		if (isAI)
+		{
+			if (snakePair.GetComponent<Snake>().GetIsAlive())
+			{				
+				for (int i = transform.childCount - 1; i >= 0; i--)
+				{
+					if (i < 3)
+					{
+						transform.GetChild(i).position = new Vector3 (17, 0, -17);
+					}
+					
+					else
+					{
+						Destroy(transform.GetChild(i).gameObject);
+						snake.RemoveAt(i);
+					}
+				}
+				
+				SetVelocity(-velocity + 15);
+			}
+			
+			else
+			{
+				isAlive = false;
+			}
+		}
+		
+		else
+		{
+			isAlive = false;
+		}
+	}
 }
