@@ -20,7 +20,7 @@ public class SnakeHead : MonoBehaviour
 		{
 			if (other.gameObject.tag != "Apple")
 			{
-				gameObject.transform.parent.gameObject.GetComponent<Snake>().HasCrash();
+				this.gameObject.transform.parent.gameObject.GetComponent<Snake>().HasCrash();
 				countFrames = 0;
 			}
 		}
