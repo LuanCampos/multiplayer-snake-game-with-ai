@@ -116,9 +116,9 @@ public class Snake : MonoBehaviour
 			
 			else
 			{
-				for (int i = snake.Count - timeTravel.Count; i > 0; i--)
+				while (snake.Count - timeTravel.Count > 0)
 				{
-					Destroy(transform.GetChild(transform.childCount - 1).gameObject);
+					Destroy(transform.GetChild(snake.Count - 1).gameObject);
 					snake.RemoveAt(snake.Count - 1);
 				}
 				
