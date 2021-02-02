@@ -1,2 +1,3 @@
 # multiplayer-snake-game-with-ai
- Ultimate Snake Game
+
+Prototype developed during ARVORE selective process, over the course of a week.
