@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
 				rightKeyText.DeactivateInputField();
 				choseKeysPanel.SetActive(false);
 				pressEnterPanel.SetActive(false);
+				isTheFirstSnake = true;
 				
 				foreach (GameObject snakeHead in GameObject.FindGameObjectsWithTag("SnakeHead"))
 				{
